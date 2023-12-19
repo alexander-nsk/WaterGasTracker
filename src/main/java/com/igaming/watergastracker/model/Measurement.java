@@ -1,12 +1,13 @@
 package com.igaming.watergastracker.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "measurement_table",
+        indexes = {
+                @Index(name = "idx_userId", columnList = "userId")
+        })
 public class Measurement {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
