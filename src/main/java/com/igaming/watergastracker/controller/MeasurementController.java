@@ -21,16 +21,17 @@ public class MeasurementController {
         this.measurementService = measurementService;
     }
 
-    @Operation(summary = "Create new measurement.")
-    @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Measurement created")})
+    @Operation(summary = "Submit a New Measurement")
+    @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Measurement successfully created")})
+    @PostMapping("/submit")
     public ResponseEntity<String> submitMeasurement(@RequestBody Measurement measurement) {
         measurementService.submitMeasurement(measurement);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Measurement created");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Measurement successfully created");
     }
 
-    @Operation(summary = "Get measurements history.")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Measurements downloaded")})
-    @GetMapping("/{userId}")
+    @Operation(summary = "Get Measurement History")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Measurements history retrieved")})
+    @GetMapping("/history/{userId}")
     public List<Measurement> getMeasurementHistory(@PathVariable String userId) {
         return measurementService.getMeasurementHistory(userId);
     }

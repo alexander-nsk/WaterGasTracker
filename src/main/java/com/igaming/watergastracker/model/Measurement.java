@@ -33,4 +33,44 @@ public class Measurement {
     public double getHotWaterUsage() {
         return hotWaterUsage;
     }
+
+    public static class Builder {
+        private String userId;
+        private double gasUsage;
+        private double coldWaterUsage;
+        private double hotWaterUsage;
+
+        public Builder userId(String userId) {
+            this.userId = userId;
+            return this;
+        }
+
+        public Builder gasUsage(double gasUsage) {
+            this.gasUsage = gasUsage;
+            return this;
+        }
+
+        public Builder coldWaterUsage(double coldWaterUsage) {
+            this.coldWaterUsage = coldWaterUsage;
+            return this;
+        }
+
+        public Builder hotWaterUsage(double hotWaterUsage) {
+            this.hotWaterUsage = hotWaterUsage;
+            return this;
+        }
+
+        public Measurement build() {
+            Measurement measurement = new Measurement();
+            measurement.userId = this.userId;
+            measurement.gasUsage = this.gasUsage;
+            measurement.coldWaterUsage = this.coldWaterUsage;
+            measurement.hotWaterUsage = this.hotWaterUsage;
+            return measurement;
+        }
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
 }

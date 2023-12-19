@@ -2,7 +2,6 @@ package com.igaming.watergastracker.service;
 
 import com.igaming.watergastracker.model.Measurement;
 import com.igaming.watergastracker.repository.MeasurementRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
