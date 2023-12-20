@@ -1,36 +1,93 @@
-# Gas & Water Usage Monitoring Application
+# Gas & Water Usage Monitoring API
 
-The **Gas & Water Usage Monitoring Application** is a REST API-based solution created to monitor gas, cold water, and hot water usage.
+## Submit Current Measurements
 
-## API Endpoints
+Submit the current gas, cold water, and hot water usage measurements for a given user.
 
-### Submit a New Measurement
+- **URL:** `/submit`
+- **HTTP Method:** `POST`
 
-- **Endpoint**: `POST /submit`
-- **Summary**: Submit a new measurement for gas, cold water, and hot water usage.
-- **Request Body**: Measurement object
-- **Response Code**:
-    - 201: Measurement successfully created
-- **Response Body**: "Measurement successfully created"
+### Request
 
-### Get Measurement History
+#### Body
 
-- **Endpoint**: `GET /history/{userId}`
-- **Summary**: Retrieve the history of previously submitted measurements for a given user.
-- **Path Variable**: userId (String)
-- **Response Code**:
-    - 200: Measurements history retrieved
-- **Response Body**: List of Measurement objects
+- Measurement (Request Body)
+  - gasUsage (double) - Gas usage in cubic meters.
+  - coldWaterUsage (double) - Cold water usage in liters.
+  - hotWaterUsage (double) - Hot water usage in liters.
 
-## Project Details
+### Response
 
-### Description
+- **Status Code:** 201 - Created
+- **Description:** Current measurements successfully submitted.
 
-The Gas & Water Usage Monitoring Application focuses on monitoring gas, cold water, and hot water consumption through a REST API. The application ensures data integrity by validating user inputs to reject incomplete or invalid data.
+## Get Measurement History
 
-### Technical Requirements
+Retrieve the history of previously submitted measurements for a given user.
 
-1. **Java Version**: 1.8
-2. **Framework**: Spring Framework
-3. **Build Tool**: Maven
-4. **Database**: HSQLDB (non-persistent data storage across application launches)
+- **URL:** `/history/{userId}`
+- **HTTP Method:** `GET`
+
+### Path Parameters
+
+- userId (Path Variable)
+
+### Response
+
+- **Status Code:** 200 - OK
+- **Description:** History of previously submitted measurements retrieved.
+
+## Get Measurement History with Pagination
+
+Retrieve the history of measurements for a specific user with pagination.
+
+- **URL:** `/history/{userId}/paged`
+- **HTTP Method:** `GET`
+
+### Path Parameters
+
+- userId (Path Variable) - User identifier
+
+### Query Parameters
+
+- page (Request Parameter, Default: 0) - Page number for pagination.
+- size (Request Parameter, Default: 10) - Number of items per page.
+
+### Response
+
+- **Status Code:** 200 - OK
+- **Description:** Measurements history retrieved with pagination.
+
+### Request
+
+#### Query Parameters
+
+- page (int, Default: 0)
+- size (int, Default: 10)
+
+### Response
+
+- **Status Code:** 200 - OK
+- **Description:** Measurements history retrieved with pagination.
+
+## Additional Features
+
+- **Validation:** User inputs are validated to reject incomplete or invalid data.
+
+## Actuator Endpoints
+
+- Health: `/actuator/health`
+
+## Monitoring with Prometheus
+
+The application exposes metrics at `/actuator/prometheus` for monitoring with Prometheus.
+
+## Code Coverage
+
+- **JaCoCo:** The code coverage is maintained above 80%.
+Simply run Maven verify and open the file target/site/jacoco/index.html in your browser. 
+
+## Testing
+
+- The code is thoroughly tested to ensure proper functionality and reliability.
+

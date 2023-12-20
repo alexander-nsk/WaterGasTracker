@@ -47,6 +47,13 @@ public class MeasurementServiceImpl implements MeasurementService {
         return measurementRepository.findByUserId(userId);
     }
 
+    /**
+     * Retrieves the measurement history with pagination for the specified user.
+     *
+     * @param userId   The identifier of the user for whom the measurement history is to be retrieved.
+     * @param pageable An object representing pagination parameters.
+     * @return A Page<Measurement> object containing the list of measurements with pagination applied.
+     */
     @Override
     @Transactional(readOnly = true)
     public Page<Measurement> getMeasurementHistoryWithPagination(String userId, Pageable pageable) {
