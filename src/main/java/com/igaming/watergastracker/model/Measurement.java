@@ -1,8 +1,11 @@
 package com.igaming.watergastracker.model;
 
 
+import org.apache.logging.log4j.core.config.plugins.validation.constraints.Required;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.util.Objects;
 
@@ -16,15 +19,17 @@ public class Measurement {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(unique = true)
     @NotBlank(message = "User ID cannot be blank")
     private String userId;
-    @Positive(message = "Gas usage must be a positive value")
-    private double gasUsage;
+    @Required
+    @NotNull(message = "Gas usage is required")
+    private Double gasUsage;
+    @NotNull(message = "Cold water usage is required")
     @Positive(message = "Cold water usage must be a positive value")
-    private double coldWaterUsage;
+    private Double coldWaterUsage;
+    @NotNull(message = "Hot water usage is required")
     @Positive(message = "Hot water usage must be a positive value")
-    private double hotWaterUsage;
+    private Double hotWaterUsage;
 
     public String getUserId() {
         return userId;
