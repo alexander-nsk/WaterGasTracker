@@ -5,6 +5,8 @@ import com.igaming.watergastracker.service.MeasurementService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +30,7 @@ public class MeasurementController {
     @Operation(summary = "Submit a New Measurement")
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Measurement successfully created")})
     @PostMapping("/submit")
+    @CacheEvict(value = "measurements", allEntries = true)
     public ResponseEntity<Void> submitMeasurement(@Valid @RequestBody Measurement measurement) {
         measurementService.submitMeasurement(measurement);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -36,6 +39,7 @@ public class MeasurementController {
     @Operation(summary = "Get Measurement History")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Measurements history retrieved")})
     @GetMapping("/history/{userId}")
+    @Cacheable(value = "measurements", key = "#userId")
     public List<Measurement> getMeasurementHistory(@PathVariable String userId) {
         return measurementService.getMeasurementHistory(userId);
     }
@@ -43,6 +47,7 @@ public class MeasurementController {
     @Operation(summary = "Get Measurement History with Pagination")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Measurements history retrieved with pagination")})
     @GetMapping("/history/{userId}/paged")
+    @Cacheable(value = "measurements", key = "#userId + '_' + #page + '_' + #size")
     public ResponseEntity<Page<Measurement>> getMeasurementHistoryWithPagination(
             @PathVariable String userId,
             @RequestParam(defaultValue = "0") int page,

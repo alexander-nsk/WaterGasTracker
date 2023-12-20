@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.math.BigDecimal;
 
@@ -77,7 +78,7 @@ public class MeasurementsIntegrationTests {
                     .build());
         }
 
-        mockMvc.perform(get("/measurements/history/testUser")
+        mockMvc.perform(get("/measurements/history/{userId}", USER_ID_1)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(MEASUREMENTS_SIZE)));
