@@ -39,7 +39,6 @@ public class MeasurementController {
     @Operation(summary = "Get Measurement History")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Measurements history retrieved")})
     @GetMapping("/history/{userId}")
-    @Cacheable(value = "measurements", key = "#userId")
     public List<Measurement> getMeasurementHistory(@PathVariable String userId) {
         return measurementService.getMeasurementHistory(userId);
     }
@@ -47,7 +46,6 @@ public class MeasurementController {
     @Operation(summary = "Get Measurement History with Pagination")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Measurements history retrieved with pagination")})
     @GetMapping("/history/{userId}/paged")
-    @Cacheable(value = "measurements", key = "#userId + '_' + #page + '_' + #size")
     public ResponseEntity<Page<Measurement>> getMeasurementHistoryWithPagination(
             @PathVariable String userId,
             @RequestParam(defaultValue = "0") int page,

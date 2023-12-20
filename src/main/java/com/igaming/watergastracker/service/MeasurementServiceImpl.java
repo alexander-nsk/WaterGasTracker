@@ -2,6 +2,8 @@ package com.igaming.watergastracker.service;
 
 import com.igaming.watergastracker.model.Measurement;
 import com.igaming.watergastracker.repository.MeasurementRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,24 +28,28 @@ public class MeasurementServiceImpl implements MeasurementService {
      */
     @Override
     @Transactional
+    @CacheEvict(value = "measurements", key = "#measurement.userId")
     public void submitMeasurement(Measurement measurement) {
         measurementRepository.save(measurement);
     }
 
     /**
      * Retrieves the measurement history for a given user ID.
+     * It uses test cache manager. Redis or coffeine should be used for production.
      *
      * @param userId The user ID for which to retrieve the measurement history.
      * @return A list of Measurement objects representing the measurement history.
      */
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "measurements", key = "#userId")
     public List<Measurement> getMeasurementHistory(String userId) {
         return measurementRepository.findByUserId(userId);
     }
 
+    @Override
+    @Transactional(readOnly = true)
     public Page<Measurement> getMeasurementHistoryWithPagination(String userId, Pageable pageable) {
         return measurementRepository.findByUserId(userId, pageable);
     }
-
 }
