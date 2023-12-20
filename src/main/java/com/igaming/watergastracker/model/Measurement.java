@@ -2,6 +2,9 @@ package com.igaming.watergastracker.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
+import java.util.Objects;
 
 @Entity
 @Table(name = "measurement_table",
@@ -13,9 +16,14 @@ public class Measurement {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(unique = true)
+    @NotBlank(message = "User ID cannot be blank")
     private String userId;
+    @Positive(message = "Gas usage must be a positive value")
     private double gasUsage;
+    @Positive(message = "Cold water usage must be a positive value")
     private double coldWaterUsage;
+    @Positive(message = "Hot water usage must be a positive value")
     private double hotWaterUsage;
 
     public String getUserId() {
@@ -72,5 +80,18 @@ public class Measurement {
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Measurement that = (Measurement) o;
+        return Double.compare(gasUsage, that.gasUsage) == 0 && Double.compare(coldWaterUsage, that.coldWaterUsage) == 0 && Double.compare(hotWaterUsage, that.hotWaterUsage) == 0 && Objects.equals(id, that.id) && Objects.equals(userId, that.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userId, gasUsage, coldWaterUsage, hotWaterUsage);
     }
 }

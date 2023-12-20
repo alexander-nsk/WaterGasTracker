@@ -7,7 +7,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @SpringBootApplication
 @EnableAspectJAutoProxy
 public class WaterGasTrackerApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(WaterGasTrackerApplication.class, args);
     }
