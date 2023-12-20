@@ -2,6 +2,8 @@ package com.igaming.watergastracker.service;
 
 import com.igaming.watergastracker.model.Measurement;
 import com.igaming.watergastracker.repository.MeasurementRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,10 +27,6 @@ public class MeasurementServiceImpl implements MeasurementService {
     @Override
     @Transactional
     public void submitMeasurement(Measurement measurement) {
-        if (measurement.getUserId() == null) {
-            throw new IllegalArgumentException("Invalid measurement data");
-        }
-
         measurementRepository.save(measurement);
     }
 
@@ -43,4 +41,9 @@ public class MeasurementServiceImpl implements MeasurementService {
     public List<Measurement> getMeasurementHistory(String userId) {
         return measurementRepository.findByUserId(userId);
     }
+
+    public Page<Measurement> getMeasurementHistoryWithPagination(String userId, Pageable pageable) {
+        return measurementRepository.findByUserId(userId, pageable);
+    }
+
 }

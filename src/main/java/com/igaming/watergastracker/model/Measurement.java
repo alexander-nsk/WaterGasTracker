@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
@@ -23,52 +24,52 @@ public class Measurement {
     private String userId;
     @Required
     @NotNull(message = "Gas usage is required")
-    private Double gasUsage;
+    private BigDecimal gasUsage;
     @NotNull(message = "Cold water usage is required")
     @Positive(message = "Cold water usage must be a positive value")
-    private Double coldWaterUsage;
+    private BigDecimal coldWaterUsage;
     @NotNull(message = "Hot water usage is required")
     @Positive(message = "Hot water usage must be a positive value")
-    private Double hotWaterUsage;
+    private BigDecimal hotWaterUsage;
 
     public String getUserId() {
         return userId;
     }
 
-    public double getGasUsage() {
+    public BigDecimal getGasUsage() {
         return gasUsage;
     }
 
-    public double getColdWaterUsage() {
+    public BigDecimal getColdWaterUsage() {
         return coldWaterUsage;
     }
 
-    public double getHotWaterUsage() {
+    public BigDecimal getHotWaterUsage() {
         return hotWaterUsage;
     }
 
     public static class Builder {
         private String userId;
-        private double gasUsage;
-        private double coldWaterUsage;
-        private double hotWaterUsage;
+        private BigDecimal gasUsage;
+        private BigDecimal coldWaterUsage;
+        private BigDecimal hotWaterUsage;
 
         public Builder userId(String userId) {
             this.userId = userId;
             return this;
         }
 
-        public Builder gasUsage(double gasUsage) {
+        public Builder gasUsage(BigDecimal gasUsage) {
             this.gasUsage = gasUsage;
             return this;
         }
 
-        public Builder coldWaterUsage(double coldWaterUsage) {
+        public Builder coldWaterUsage(BigDecimal coldWaterUsage) {
             this.coldWaterUsage = coldWaterUsage;
             return this;
         }
 
-        public Builder hotWaterUsage(double hotWaterUsage) {
+        public Builder hotWaterUsage(BigDecimal hotWaterUsage) {
             this.hotWaterUsage = hotWaterUsage;
             return this;
         }
@@ -92,7 +93,7 @@ public class Measurement {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Measurement that = (Measurement) o;
-        return Double.compare(gasUsage, that.gasUsage) == 0 && Double.compare(coldWaterUsage, that.coldWaterUsage) == 0 && Double.compare(hotWaterUsage, that.hotWaterUsage) == 0 && Objects.equals(id, that.id) && Objects.equals(userId, that.userId);
+        return Objects.equals(id, that.id) && Objects.equals(userId, that.userId) && Objects.equals(gasUsage, that.gasUsage) && Objects.equals(coldWaterUsage, that.coldWaterUsage) && Objects.equals(hotWaterUsage, that.hotWaterUsage);
     }
 
     @Override
